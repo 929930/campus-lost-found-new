@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校园失物招领平台</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: 'Microsoft YaHei', sans-serif; background:#f5f5f5; }
+    .header { position:fixed; top:0; left:0; right:0; height:60px; background:#4F46E5; color:white; display:flex; align-items:center; justify-content:space-between; padding:0 20px; z-index:100; }
+    .logo { font-size:20px; font-weight:bold; }
+    .hero { margin-top:60px; padding:40px 20px; background:linear-gradient(135deg, #EEF2FF, #E0E7FF); }
+    .hero h1 { font-size:28px; color:#1F2937; }
+    .search-bar { margin-top:20px; display:flex; max-width:500px; }
+    .search-input { flex:1; padding:12px; border:none; border-radius:8px 0 0 8px; }
+    .search-btn { padding:12px 20px; background:#4F46E5; color:white; border:none; border-radius:0 8px 8px 0; cursor:pointer; }
+    .main { max-width:1200px; margin:0 auto; padding:20px; }
+    .items-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px; }
+    .item-card { background:white; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    .item-image { width:100%; height:180px; object-fit:cover; }
+    .item-content { padding:15px; }
+    .item-title { font-size:16px; font-weight:bold; margin-bottom:8px; }
+    .item-meta { font-size:12px; color:#666; }
+    .footer { text-align:center; padding:30px; background:#1F2937; color:#9CA3AF; margin-top:40px; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const items = [
+      { id:'1', type:'found', title:'校园卡遗落在图书馆', desc:'捡到李明同学的校园卡', loc:'图书馆三楼', date:'2026-06-03', img:'https://images.unsplash.com/photo-1555921015-5532091f6026?w=600&h=400&fit=crop', publisher:'热心同学' },
+      { id:'2', type:'lost', title:'寻找《高等数学》教材', desc:'丢失同济大学版高数书', loc:'教学楼A栋', date:'2026-06-02', img:'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=400&fit=crop', publisher:'王芳' },
+      { id:'3', type:'found', title:'华为蓝牙耳机盒', desc:'食堂门口捡到黑色耳机盒', loc:'学生食堂', date:'2026-06-03', img:'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600&h=400&fit=crop', publisher:'食堂工作人员' },
+      { id:'4', type:'lost', title:'黑色双肩包丢失', desc:'内有MacBook Pro电脑', loc:'操场西看台', date:'2026-06-01', img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&h=400&fit=crop', publisher:'张同学' },
+      { id:'5', type:'found', title:'捡到身份证', desc:'姓名刘伟，地址济南', loc:'学校超市', date:'2026-06-03', img:'https://images.unsplash.com/photo-1576872381149-7847515ce5d8?w=600&h=400&fit=crop', publisher:'超市员工' },
+      { id:'6', type:'lost', title:'丢失蓝色保温杯', desc:'膳魔师300ml', loc:'体育馆', date:'2026-06-02', img:'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=600&h=400&fit=crop', publisher:'篮球社小王' }
+    ];
+    let search = '';
+    function render() {
+      const filtered = items.filter(i => i.title.toLowerCase().includes(search));
+      document.getElementById('app').innerHTML = `
+        <header class="header"><div class="logo">📦 校园失物招领</div><div style="display:flex;gap:10px"><span>首页</span><span>关于</span></div></header>
+        <section class="hero"><h1>寻找失物，传递温暖</h1><div class="search-bar"><input class="search-input" placeholder="搜索物品..." oninput="search=this.value;render()" value="${search}"><button class="search-btn">搜索</button></div></section>
+        <main class="main"><div class="items-grid">${filtered.map(i => `<div class="item-card"><img class="item-image" src="${i.img}"><div class="item-content"><span style="background:${i.type==='found'?'#D1FAE5':'#FEE2E2'};color:${i.type==='found'?'#10B981':'#EF4444'};padding:3px 8px;border-radius:10px;font-size:11px">${i.type==='found'?'已捡到':'寻物'}</span><div class="item-title">${i.title}</div><div class="item-meta">📍${i.loc} | 📅${i.date} | ${i.publisher}</div></div></div>`).join('')}</div></main>
+        <footer class="footer">校园失物招领平台 © 2026</footer>
+      `;
+    }
+    render();
+  </script>
+</body>
+</html>
